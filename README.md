@@ -1,7 +1,5 @@
 # README - CryptoSim
 
-**University of Cincinnati**
-
 **CS3003/CS4092 — Programming Languages & Database Design/Development Summer 2026**
 ---
 
@@ -14,7 +12,7 @@
 
 ---
 
-# Overview
+## Overview
 
 CryptoSim is a Java application that simulates a simplified blockchain based cryptocurrency. Users can register, create wallets, and send coins to another; transactions are cryptographically signed, collected into blocks through proof-of-work mining process, and persisted to a PostgreSQL database. The system allows anyone to view the blockchain, query balances and transaction history, and validate the integrity of the chain. 
 
