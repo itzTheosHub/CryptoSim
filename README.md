@@ -60,6 +60,39 @@ Both roles interact with the system through the same command-line
 
 [![](https://img.plantuml.biz/plantuml/svg/RLFBRi8m4Bn7oZ-iE55LuGEg2j72ePMeIaLLpiPiWaLi8-_IWYXIFw9Vs2-fGm9v7ZqxipkUjKV4ml5Efp1sXotRkTBmuEHQCKhUEGm3aQRsIwkzCaaOiE8KAzI_dzy6VQrM2AYtV02DUecEmY0Cja9kH8BG6q-VUt0C0m2P2Y9u4Sg4mQd6cLZjqHhjCRLo8zSUpb60MwqCpj2ilA_-JO4f-X2fMkNdKqD-LKghjpl69q7h2bCiYPsGN4ZUdJ3aZygM8uyNpWa-ipc2iJNgh8lHLVHbSMoLMGh2pkB29ury7KOgCNtUb_sLONIna3v_QmWDxMZktJ0cXxB9p5aRlyOBwpRDM6T-5ueOZSHQjZDBd3ZqpQppn4BcBoSogrwNr-Tlqnu8WibZLixs1b4qh6mc32fRib6Kbmhq3DIkNGtu_ljIRIRNOdL6s0h4SmU3UXWLSvdlZWoB1Gm6moulS0VPIgZLgPLV0pYJyjH6_htwl_OF)](https://editor.plantuml.com/uml/RLFBRi8m4Bn7oZ-iE55LuGEg2j72ePMeIaLLpiPiWaLi8-_IWYXIFw9Vs2-fGm9v7ZqxipkUjKV4ml5Efp1sXotRkTBmuEHQCKhUEGm3aQRsIwkzCaaOiE8KAzI_dzy6VQrM2AYtV02DUecEmY0Cja9kH8BG6q-VUt0C0m2P2Y9u4Sg4mQd6cLZjqHhjCRLo8zSUpb60MwqCpj2ilA_-JO4f-X2fMkNdKqD-LKghjpl69q7h2bCiYPsGN4ZUdJ3aZygM8uyNpWa-ipc2iJNgh8lHLVHbSMoLMGh2pkB29ury7KOgCNtUb_sLONIna3v_QmWDxMZktJ0cXxB9p5aRlyOBwpRDM6T-5ueOZSHQjZDBd3ZqpQppn4BcBoSogrwNr-Tlqnu8WibZLixs1b4qh6mc32fRib6Kbmhq3DIkNGtu_ljIRIRNOdL6s0h4SmU3UXWLSvdlZWoB1Gm6moulS0VPIgZLgPLV0pYJyjH6_htwl_OF)
 
-## Tech Stack
 
+## Project Structure
+
+```text
+cryptosim/
+├── README.md
+├── docs/
+│   ├── requirements.pdf        # CS4092 Phase 1 — requirements document
+│   ├── er-diagram.png          # CS4092 Phase 2 — entity-relationship diagram
+│   ├── relational-schema.pdf   # CS4092 Phase 3 — relational schema
+│   ├── architecture.puml       # PlantUML source for the class diagram
+│   └── architecture.png        # Rendered architecture diagram
+├── sql/
+│   └── schema.sql              # CS4092 Phase 4 — CREATE TABLE + sample INSERTs
+└── src/
+    └── cryptosim/
+        ├── Main.java               # CLI menu loop
+        ├── domain/
+        │   ├── Blockchain.java     # Chain + mempool + validation rules
+        │   ├── Block.java          # Self-hashing block container
+        │   ├── Transaction.java    # Abstract base
+        │   ├── TransferTransaction.java
+        │   ├── CoinbaseTransaction.java
+        │   ├── Wallet.java         # Key pair + signing
+        │   ├── ConsensusStrategy.java
+        │   └── ProofOfWork.java    # Nonce-search mining loop
+        └── storage/
+            └── PostgresStorage.java  # All JDBC/SQL lives here
+```
+
+## Tech Stack
+- Java 17+
+- PostgreSQL 16
+- JDBC (org.postgresql:postgresql) - the only external dependency
+  
 
