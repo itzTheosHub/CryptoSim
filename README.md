@@ -2,7 +2,7 @@
 
 **University of Cincinnati**
 
-**CS3003/CS4092 — Programming Languages & Database Design & Development, Summer 2026**
+**CS3003/CS4092 — Programming Languages & Database Design/Development Summer 2026**
 ---
 
 ## Revision History
@@ -24,16 +24,18 @@ This project simulates a single node system. It models the core data structures 
 
 ## User Roles
 
-- [ ] User: A registered participant who may own one or more wallets, send coins from their wallets, and query balances and history.
-- [ ] Miner: Any user who chooses to mine. Mining confirms pending transactions into a new block and grants the miner a fixed coin reward ( how new coins enter the system).
+- User: A registered participant who may own one or more wallets, send coins from their wallets, and query balances and history.
+- Miner: Any user who chooses to mine. Mining confirms pending transactions into a new block and grants the miner a fixed coin reward ( how new coins enter the system).
 
 Both roles interact with the system through the same command-line
+
+---
 
 ## Functional Requirements
 
 - **FR-1** Registration — The system should allow a new user to register with a unique username
-- **FR-2** Create Wallet - The system should allow a registered user to create one or more wallets. Each wallet is assigned a cryptographic key pair, and the wallet's address should be derived from it's public key.
-- **FR-3** Transactions - The system should allow a user to create a transaction sending a specific amount of coins from one of their wallets to any other wallet address. The transaction should be digitally signed with the sending wallet's private key.
+- **FR-2** Create Wallet — The system should allow a registered user to create one or more wallets. Each wallet is assigned a cryptographic key pair, and the wallet's address should be derived from it's public key.
+- **FR-3** Transactions — The system should allow a user to create a transaction sending a specific amount of coins from one of their wallets to any other wallet address. The transaction should be digitally signed with the sending wallet's private key.
 - **FR-4** Transaction Validation — The system should reject a transaction if its signature is invalid or the sending wallet's balance is insufficient.
 - **FR-5** Mempool — The system should hold valid, unconfirmed transactions in a pending pool (mempool) until they are mined into a block.
 - **FR-6** Mining — The system should allow any user to mine: pending transactions are bundled into a new block, a proof-of-work puzzle is solved (finding a nonce such that the block hash meets the difficulty target), and the block is appended to the chain. A coinbase transaction should award a fixed number of newly created coins to the miner's wallet.
@@ -44,7 +46,7 @@ Both roles interact with the system through the same command-line
 - **FR-11** Mining Leaderboard — The system should display a leaderboard showing the number of blocks mined per user.
 - **FR-12** Chain Validation — The system should validate the full chain on demand by recomputing each block's hash and verifying each block correctly references its predecessor, reporting any block whose stored data has been altered.
 
-
+---
 
 ## Data Model
 
@@ -55,11 +57,13 @@ Both roles interact with the system through the same command-line
 | Blocks | The blockchain | block_id PK, self-referencing FK to previous_block_id, FK to miner's wallet |
 | Transactions | Transfers and coinbase rewards | transaction_id PK, FKs to blocks and to sender/reciever wallets | 
 
+---
 
-## Archetecture 
+## Architecture 
 
 [![](https://img.plantuml.biz/plantuml/svg/RLFBRi8m4Bn7oZ-iE55LuGEg2j72ePMeIaLLpiPiWaLi8-_IWYXIFw9Vs2-fGm9v7ZqxipkUjKV4ml5Efp1sXotRkTBmuEHQCKhUEGm3aQRsIwkzCaaOiE8KAzI_dzy6VQrM2AYtV02DUecEmY0Cja9kH8BG6q-VUt0C0m2P2Y9u4Sg4mQd6cLZjqHhjCRLo8zSUpb60MwqCpj2ilA_-JO4f-X2fMkNdKqD-LKghjpl69q7h2bCiYPsGN4ZUdJ3aZygM8uyNpWa-ipc2iJNgh8lHLVHbSMoLMGh2pkB29ury7KOgCNtUb_sLONIna3v_QmWDxMZktJ0cXxB9p5aRlyOBwpRDM6T-5ueOZSHQjZDBd3ZqpQppn4BcBoSogrwNr-Tlqnu8WibZLixs1b4qh6mc32fRib6Kbmhq3DIkNGtu_ljIRIRNOdL6s0h4SmU3UXWLSvdlZWoB1Gm6moulS0VPIgZLgPLV0pYJyjH6_htwl_OF)](https://editor.plantuml.com/uml/RLFBRi8m4Bn7oZ-iE55LuGEg2j72ePMeIaLLpiPiWaLi8-_IWYXIFw9Vs2-fGm9v7ZqxipkUjKV4ml5Efp1sXotRkTBmuEHQCKhUEGm3aQRsIwkzCaaOiE8KAzI_dzy6VQrM2AYtV02DUecEmY0Cja9kH8BG6q-VUt0C0m2P2Y9u4Sg4mQd6cLZjqHhjCRLo8zSUpb60MwqCpj2ilA_-JO4f-X2fMkNdKqD-LKghjpl69q7h2bCiYPsGN4ZUdJ3aZygM8uyNpWa-ipc2iJNgh8lHLVHbSMoLMGh2pkB29ury7KOgCNtUb_sLONIna3v_QmWDxMZktJ0cXxB9p5aRlyOBwpRDM6T-5ueOZSHQjZDBd3ZqpQppn4BcBoSogrwNr-Tlqnu8WibZLixs1b4qh6mc32fRib6Kbmhq3DIkNGtu_ljIRIRNOdL6s0h4SmU3UXWLSvdlZWoB1Gm6moulS0VPIgZLgPLV0pYJyjH6_htwl_OF)
 
+---
 
 ## Project Structure
 
@@ -89,10 +93,13 @@ cryptosim/
         └── storage/
             └── PostgresStorage.java  # All JDBC/SQL lives here
 ```
+---
 
 ## Tech Stack
 - Java 17+
 - PostgreSQL 16
 - JDBC (org.postgresql:postgresql) - the only external dependency
+
+---
   
 
