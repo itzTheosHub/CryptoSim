@@ -71,6 +71,9 @@ Both roles interact with the system through the same command-line
 ## Relational Schema
 ![Relational Schema](docs/Relational-schema.png)
 
+## Vide Demonstration
+![Watch the demo](https://mailuc-my.sharepoint.com/:v:/r/personal/colositc_mail_uc_edu/Documents/Videos/CryptoSim%20Demo.mp4?csf=1&web=1&e=pmQMP9)
+
 ---
 
 
