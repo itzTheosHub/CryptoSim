@@ -72,7 +72,7 @@ Both roles interact with the system through the same command-line
 ![Relational Schema](docs/Relational-schema.png)
 
 ## Vide Demonstration
-![Watch the demo](https://youtu.be/eTyQ0E-X3Ec)
+[Watch the demo](https://youtu.be/eTyQ0E-X3Ec)
 
 ---
 
