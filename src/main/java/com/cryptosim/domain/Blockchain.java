@@ -28,15 +28,17 @@ public class Blockchain {
             for (Transaction t : block.getBlockData()){
                 // check if t is of type "TRANSFER"
                 if (t.getType().equals("TRANSFER")){
-                    // Cast t as a TransferTransaction object
                     TransferTransaction tx = (TransferTransaction) t;
-                    // Check if receiverAddr == walletAddr then add then add the ammount in tx
                     if(tx.getReceiverAddress().equals(walletAddress)){
                         balance += tx.getAmount();
                     }
-                    // Check if senderAddr == walletAddr then subtract the amount in tx
                     if(tx.getSenderAddress().equals(walletAddress)){
                         balance -= tx.getAmount();
+                    }
+                } else if (t.getType().equals("COINBASE")){
+                    CoinbaseTransaction ctx = (CoinbaseTransaction) t;
+                    if(ctx.getMinerAddress().equals(walletAddress)){
+                        balance += ctx.getAmount();
                     }
                 }
             }   
