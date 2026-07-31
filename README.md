@@ -51,8 +51,8 @@ Both roles interact with the system through the same command-line
 |-------------|---------|----------------------------------------|
 | Users  | Registered participants     |  user_id PK, unique username    |
 | Wallets | Accounts identified by cryptographic key pair | address PK, FK to users ( user can own many wallets ) |
-| Blocks | The blockchain | block_id PK, self-referencing FK to previous_block_id, FK to miner's wallet |
-| Transactions | Transfers and coinbase rewards | transaction_id PK, FKs to blocks and to sender/reciever wallets | 
+| Blocks | The blockchain | block_id PK, previous block hash, miner address |
+| Transactions | Transfers and coinbase rewards | transaction_id PK, FK to blocks, sender/receiver/miner address | 
 
 ---
 
@@ -81,9 +81,8 @@ CryptoSim/
 ├── README.md
 ├── pom.xml
 ├── docs/
-│   ├── requirements.pdf        # CS4092 Phase 1 — requirements document
 │   ├── er-diagram.png          # CS4092 Phase 2 — entity-relationship diagram
-│   └── relational-schema.pdf   # CS4092 Phase 3 — relational schema
+│   └── relational-schema.png   # CS4092 Phase 3 — relational schema
 ├── sql/
 │   └── schema.sql              # CS4092 Phase 4 — CREATE TABLE + sample INSERTs + queries
 └── src/main/java/com/cryptosim/
