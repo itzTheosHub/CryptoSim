@@ -8,6 +8,7 @@
 | Date       | Version | Description                          | Author |
 |------------|---------|--------------------------------------|--------|
 | 07/20/2026 | 0.1     | Initial README Draft             | Theo Colosimo   |
+| 07/31/2026 | 0.2     | README Edits - finalized         | Theo Colosimo
 
 
 ---
@@ -35,13 +36,13 @@ Both roles interact with the system through the same command-line
 - **FR-2** Create Wallet — The system should allow a registered user to create one or more wallets. Each wallet is assigned a cryptographic key pair, and the wallet's address should be derived from it's public key.
 - **FR-3** Transactions — The system should allow a user to create a transaction sending a specific amount of coins from one of their wallets to any other wallet address. The transaction should be digitally signed with the sending wallet's private key.
 - **FR-4** Transaction Validation — The system should reject a transaction if its signature is invalid or the sending wallet's balance is insufficient.
-- **FR-5** Mempool — The system should hold valid, unconfirmed transactions in a pending pool (mempool) until they are mined into a block.
-- **FR-6** Mining — The system should allow any user to mine: pending transactions are bundled into a new block, a proof-of-work puzzle is solved (finding a nonce such that the block hash meets the difficulty target), and the block is appended to the chain. A coinbase transaction should award a fixed number of newly created coins to the miner's wallet.
-- **FR-7** Persistence — The system should persist all users, wallets, blocks, and transactions to a PostgreSQL database.
+- **FR-5** ~~Mempool~~ — Descoped. Transactions are passed directly into mine() instead of queuing in a mempool.
+- **FR-6** Mining — The system should allow any user to mine: transactions are bundled into a new block, a proof-of-work puzzle is solved (finding a nonce such that the block hash meets the difficulty target), and the block is appended to the chain. A coinbase transaction awards a fixed 50 coins to the miner's wallet.
+- **FR-7** Persistence — The system persists blocks and transactions to PostgreSQL via JDBC.
 - **FR-8** View Blockchain — The system should display the blockchain, showing each block's height, hash, previous hash, miner, and contained transactions.
 - **FR-9** Balance Query — The system should compute a wallet's balance as the sum of coins received minus coins sent, derived from confirmed transactions (balances are not stored).
 - **FR-10** Transaction History — The system should display the transaction history for a given user across all of their wallets.
-- **FR-11** Mining Leaderboard — The system should display a leaderboard showing the number of blocks mined per user.
+- **FR-11** ~~Mining Leaderboard~~ — Descoped. Available as a SQL query in schema.sql but not implemented in the CLI.
 - **FR-12** Chain Validation — The system should validate the full chain on demand by recomputing each block's hash and verifying each block correctly references its predecessor, reporting any block whose stored data has been altered.
 
 ---
@@ -63,41 +64,68 @@ Both roles interact with the system through the same command-line
 
 ---
 
+
+## ER Diagram
+![ER Diagram](docs/ER-diagram.png)
+
+---
+
+## Relational Schema
+![Relational Schema](docs/Relational-schema.png)
+
+---
+
+
 ## Project Structure
 
 ```text
-cryptosim/
+CryptoSim/
 ├── README.md
+├── pom.xml
 ├── docs/
 │   ├── requirements.pdf        # CS4092 Phase 1 — requirements document
 │   ├── er-diagram.png          # CS4092 Phase 2 — entity-relationship diagram
-│   ├── relational-schema.pdf   # CS4092 Phase 3 — relational schema
-│   ├── architecture.puml       # PlantUML source for the class diagram
-│   └── architecture.png        # Rendered architecture diagram
+│   └── relational-schema.pdf   # CS4092 Phase 3 — relational schema
 ├── sql/
-│   └── schema.sql              # CS4092 Phase 4 — CREATE TABLE + sample INSERTs
-└── src/
-    └── cryptosim/
-        ├── Main.java               # CLI menu loop
-        ├── domain/
-        │   ├── Blockchain.java     # Chain + mempool + validation rules
-        │   ├── Block.java          # Self-hashing block container
-        │   ├── Transaction.java    # Abstract base
-        │   ├── TransferTransaction.java
-        │   ├── CoinbaseTransaction.java
-        │   ├── Wallet.java         # Key pair + signing
-        │   ├── ConsensusStrategy.java
-        │   └── ProofOfWork.java    # Nonce-search mining loop
-        └── storage/
-            └── PostgresStorage.java  # All JDBC/SQL lives here
+│   └── schema.sql              # CS4092 Phase 4 — CREATE TABLE + sample INSERTs + queries
+└── src/main/java/com/cryptosim/
+    ├── Main.java               # CLI menu loop
+    ├── domain/
+    │   ├── Blockchain.java     # Chain + validation rules
+    │   ├── Block.java          # Self-hashing block container
+    │   ├── Transaction.java    # Abstract base
+    │   ├── TransferTransaction.java
+    │   ├── CoinbaseTransaction.java
+    │   ├── Wallet.java         # EC key pair + signing
+    │   ├── StringUtil.java     # SHA-256 utility
+    │   ├── ConsensusStrategy.java
+    │   └── ProofOfWork.java    # Nonce-search mining loop
+    └── storage/
+        └── PostgresStorage.java  # All JDBC/SQL lives here
 ```
 ---
 
 ## Tech Stack
-- Java 17+
-- PostgreSQL 16
-- JDBC (org.postgresql:postgresql) - the only external dependency
+- Java 17
+- PostgreSQL 18.3
+- JDBC (org.postgresql:postgresql 42.7.3) — only external dependency
+- Maven (build + dependency management)
 
 ---
-  
 
+## How to Run
+
+**Prerequisites:** Java 17, Maven, PostgreSQL running with `cryptosim` database and `cryptosim_user` set up.
+
+**Load schema:**
+```
+psql -U cryptosim_user -d cryptosim -f sql/schema.sql
+```
+
+**Compile and run:**
+```
+mvn compile
+mvn exec:java "-Dexec.mainClass=com.cryptosim.Main"
+```
+
+---
