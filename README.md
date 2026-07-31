@@ -36,14 +36,12 @@ Both roles interact with the system through the same command-line
 - **FR-2** Create Wallet — The system should allow a registered user to create one or more wallets. Each wallet is assigned a cryptographic key pair, and the wallet's address should be derived from it's public key.
 - **FR-3** Transactions — The system should allow a user to create a transaction sending a specific amount of coins from one of their wallets to any other wallet address. The transaction should be digitally signed with the sending wallet's private key.
 - **FR-4** Transaction Validation — The system should reject a transaction if its signature is invalid or the sending wallet's balance is insufficient.
-- **FR-5** ~~Mempool~~ — Descoped. Transactions are passed directly into mine() instead of queuing in a mempool.
-- **FR-6** Mining — The system should allow any user to mine: transactions are bundled into a new block, a proof-of-work puzzle is solved (finding a nonce such that the block hash meets the difficulty target), and the block is appended to the chain. A coinbase transaction awards a fixed 50 coins to the miner's wallet.
-- **FR-7** Persistence — The system persists blocks and transactions to PostgreSQL via JDBC.
-- **FR-8** View Blockchain — The system should display the blockchain, showing each block's height, hash, previous hash, miner, and contained transactions.
-- **FR-9** Balance Query — The system should compute a wallet's balance as the sum of coins received minus coins sent, derived from confirmed transactions (balances are not stored).
-- **FR-10** Transaction History — The system should display the transaction history for a given user across all of their wallets.
-- **FR-11** ~~Mining Leaderboard~~ — Descoped. Available as a SQL query in schema.sql but not implemented in the CLI.
-- **FR-12** Chain Validation — The system should validate the full chain on demand by recomputing each block's hash and verifying each block correctly references its predecessor, reporting any block whose stored data has been altered.
+- **FR-5** Mining — The system should allow any user to mine: transactions are bundled into a new block, a proof-of-work puzzle is solved (finding a nonce such that the block hash meets the difficulty target), and the block is appended to the chain. A coinbase transaction awards a fixed 50 coins to the miner's wallet.
+- **FR-6** Persistence — The system persists blocks and transactions to PostgreSQL via JDBC.
+- **FR-7** View Blockchain — The system should display the blockchain, showing each block's height, hash, previous hash, miner, and contained transactions.
+- **FR-8** Balance Query — The system should compute a wallet's balance as the sum of coins received minus coins sent, derived from confirmed transactions (balances are not stored).
+- **FR-9** Transaction History — The system should display the transaction history for a given user across all of their wallets.
+- **FR-10** Chain Validation — The system should validate the full chain on demand by recomputing each block's hash and verifying each block correctly references its predecessor, reporting any block whose stored data has been altered.
 
 ---
 
@@ -60,7 +58,7 @@ Both roles interact with the system through the same command-line
 
 ## Architecture 
 
-[![](https://img.plantuml.biz/plantuml/svg/RLFBRi8m4Bn7oZ-iE55LuGEg2j72ePMeIaLLpiPiWaLi8-_IWYXIFw9Vs2-fGm9v7ZqxipkUjKV4ml5Efp1sXotRkTBmuEHQCKhUEGm3aQRsIwkzCaaOiE8KAzI_dzy6VQrM2AYtV02DUecEmY0Cja9kH8BG6q-VUt0C0m2P2Y9u4Sg4mQd6cLZjqHhjCRLo8zSUpb60MwqCpj2ilA_-JO4f-X2fMkNdKqD-LKghjpl69q7h2bCiYPsGN4ZUdJ3aZygM8uyNpWa-ipc2iJNgh8lHLVHbSMoLMGh2pkB29ury7KOgCNtUb_sLONIna3v_QmWDxMZktJ0cXxB9p5aRlyOBwpRDM6T-5ueOZSHQjZDBd3ZqpQppn4BcBoSogrwNr-Tlqnu8WibZLixs1b4qh6mc32fRib6Kbmhq3DIkNGtu_ljIRIRNOdL6s0h4SmU3UXWLSvdlZWoB1Gm6moulS0VPIgZLgPLV0pYJyjH6_htwl_OF)](https://editor.plantuml.com/uml/RLFBRi8m4Bn7oZ-iE55LuGEg2j72ePMeIaLLpiPiWaLi8-_IWYXIFw9Vs2-fGm9v7ZqxipkUjKV4ml5Efp1sXotRkTBmuEHQCKhUEGm3aQRsIwkzCaaOiE8KAzI_dzy6VQrM2AYtV02DUecEmY0Cja9kH8BG6q-VUt0C0m2P2Y9u4Sg4mQd6cLZjqHhjCRLo8zSUpb60MwqCpj2ilA_-JO4f-X2fMkNdKqD-LKghjpl69q7h2bCiYPsGN4ZUdJ3aZygM8uyNpWa-ipc2iJNgh8lHLVHbSMoLMGh2pkB29ury7KOgCNtUb_sLONIna3v_QmWDxMZktJ0cXxB9p5aRlyOBwpRDM6T-5ueOZSHQjZDBd3ZqpQppn4BcBoSogrwNr-Tlqnu8WibZLixs1b4qh6mc32fRib6Kbmhq3DIkNGtu_ljIRIRNOdL6s0h4SmU3UXWLSvdlZWoB1Gm6moulS0VPIgZLgPLV0pYJyjH6_htwl_OF)
+[![](https://img.plantuml.biz/plantuml/svg/TP91JiCm44NtbNg7KVVf2H0gBKiGe21rxJYJnAhjgSOJGIGM788JSXBij5MY9Epy_pnh_ByCko2AfNKM3joTXNBZu85rOmIrj8ph5O2obZwS-JI-JbACM1pXlzy_iokDAH7GdQK3Xwv03kjLyhLL8S2pCdvGUqlwf9kvr-ykWh3ISlNVMVaGfQ4Ht9iLykBmGCONAk3Yy1YZeIHjl21NIiTWv0Fwq8OyBXQikm5_PQBgfJeIdqOc1QaP8qwiQhpaB9Mej1Ksrt7-zhG15U1nVm5I1P1bzvFqWmBAig66_j1RanmZ2NTVj_cyZ1dtJo-pz97URgV9HyzC6HOhcp2pcc1gzTYjdntwClxAFm00)](https://editor.plantuml.com/uml/TP91JiCm44NtbNg7KVVf2H0gBKiGe21rxJYJnAhjgSOJGIGM788JSXBij5MY9Epy_pnh_ByCko2AfNKM3joTXNBZu85rOmIrj8ph5O2obZwS-JI-JbACM1pXlzy_iokDAH7GdQK3Xwv03kjLyhLL8S2pCdvGUqlwf9kvr-ykWh3ISlNVMVaGfQ4Ht9iLykBmGCONAk3Yy1YZeIHjl21NIiTWv0Fwq8OyBXQikm5_PQBgfJeIdqOc1QaP8qwiQhpaB9Mej1Ksrt7-zhG15U1nVm5I1P1bzvFqWmBAig66_j1RanmZ2NTVj_cyZ1dtJo-pz97URgV9HyzC6HOhcp2pcc1gzTYjdntwClxAFm00)
 
 ---
 
